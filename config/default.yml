@@ -1,0 +1,15 @@
+version: 0.0.1
+
+server:
+    port: 8080
+
+log:
+    level: debug # debug, info, warn or error
+    encoding: json # json or console
+
+cors:
+    enabled: true
+    allowed_origins: ['*']
+
+db:
+    url: 'postgres://user:pswd@host.docker.internal:5432/taskmate?sslmode=disable'
