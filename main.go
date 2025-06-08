@@ -12,5 +12,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(cfg.Database.URL)
+	fmt.Println(cfg.Server.Port)
 }

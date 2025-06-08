@@ -12,4 +12,4 @@ cors:
     allowed_origins: ['*']
 
 db:
-    url: 'postgres://user:pswd@host.docker.internal:5432/taskmate?sslmode=disable'
+    url: 'postgres://postgres:admin@host.docker.internal:5432/taskmate?sslmode=disable'

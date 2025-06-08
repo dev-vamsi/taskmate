@@ -15,6 +15,7 @@ type Config struct {
 	Log      LogConfig      `json:"log" mapstructure:"log"`
 	Cors     CorsConfig     `json:"cors" mapstructure:"cors"`
 	Database DatabaseConfig `json:"db" mapstructure:"db"`
+	Server   ServerConfig   `json:"server" mapstructure:"server"`
 }
 
 type defaulter interface {
@@ -32,6 +33,10 @@ func (cfg *Config) Load(path string) error {
 	v := viper.New()
 	v.SetConfigFile(path)
 
+	if err := v.ReadInConfig(); err != nil {
+		return fmt.Errorf("loading configuration: %w", err)
+	}
+
 	// Calls set interface methods on all fields that implement the defaulter interface
 	// This allows us to set default values for fields that implement the defaulter interface
 	f := func(field any) {
@@ -46,12 +51,8 @@ func (cfg *Config) Load(path string) error {
 
 	val := reflect.ValueOf(cfg).Elem()
 	for i := range val.NumField() {
-		field := val.Field(i).Interface()
+		field := val.Field(i).Addr().Interface()
 		f(field)
-	}
-
-	if err := v.ReadInConfig(); err != nil {
-		return fmt.Errorf("loading configuration: %w", err)
 	}
 
 	// Unmarshal config into struct
